@@ -1,0 +1,25 @@
+#first-li{
+    font-size:25px
+    }
+    
+.middle{
+    color:blue
+    }
+    
+.point{
+    fill:green
+    }
+    
+#circle-1{
+    fill:red
+    }
+    
+#bottom-svg{
+    opacity:0.3
+    }
+    
+#bottom-svg .point{
+    opacity:0
+    }
+    
+    
