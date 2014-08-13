@@ -40,31 +40,22 @@ var youngest = ages(data.slice(0,5))
 // Write a function called "description" that takes in an object (one element from the data array) and constructs the following sentence (4 pts.):
 
 // "The median age in " {city} " is " {median age}"
-function description(x){
+var description = function(x){
     return "The median age in " + x.city + " is " + x.age
 }
- 
+
 // Pass one of the data elements to your function and view the results
 description(data[0])
  
 
 // Using the array filter functionality, create an array called "maleCities" that has the names of cities where there are more men than women (3 pts.)
 
-// Initial approach using a filter then map
-// var maleCitiesObjs = data.filter(function(x){
-    // return x.males > x.females
-// })
-// var maleCities = maleCitiesObjs.map(function(x){
-    // return x.city
-// })
-
-// Shorter approach using reduce
-var maleCities = data.reduce(function(x, cities){
-    if (b.males > b.females) {
-        cities.push(b.city)
-    }
-    return a
-}, [])
+var maleCitiesObjs = data.filter(function(x){
+    return x.males > x.females
+})
+var maleCities = maleCitiesObjs.map(function(x){
+    return x.city
+})
 
 // How many of the top 100 cities have more males than females?
 maleCities.length
