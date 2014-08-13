@@ -49,12 +49,22 @@ description(data[0])
  
 
 // Using the array filter functionality, create an array called "maleCities" that has the names of cities where there are more men than women (3 pts.)
-var maleCitiesObjs = data.filter(function(x){
-    return x.males > x.females
-})
-var maleCities = maleCitiesObjs.map(function(x){
-    return x.city
-})
+
+// Initial approach using a filter then map
+// var maleCitiesObjs = data.filter(function(x){
+    // return x.males > x.females
+// })
+// var maleCities = maleCitiesObjs.map(function(x){
+    // return x.city
+// })
+
+// Shorter approach using reduce
+var maleCities = data.reduce(function(x, cities){
+    if (b.males > b.females) {
+        cities.push(b.city)
+    }
+    return a
+}, [])
 
 // How many of the top 100 cities have more males than females?
 maleCities.length
