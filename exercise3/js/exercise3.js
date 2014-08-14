@@ -1,4 +1,8 @@
 // Width and height settings
+// Create a variable "mySvg" that is a selection of the svg with the id "my-svg"
+var mySvg = d3.select('body').append('svg').attr('id', 'my-svg')
+    .attr('width', 500).attr('height', 400)
+
 var settings = {
   width:40, 
   height:300, 
@@ -51,12 +55,9 @@ var assignXLabel = function(XLabel) {
   XLabel.attr('x',function(d,i){return (settings.interval*i + 2.5)})
       .attr('y', 320)
       .attr('class', 'x-label')
+      .attr('fill', 'black')
       .text(function(d){return d.year})
 }
-
-
-// Create a variable "mySvg" that is a selection of the svg with the id "my-svg"
-var mySvg = d3.select('#my-svg')
 
 // Define a variable "rects" as the selection of all 'rect' elements within your "mySvg" variable with your data bound to it
 var rects = mySvg.selectAll('rect')
