@@ -38,6 +38,7 @@ yScale.domain([yMin, yMax])
 yScale.range([settings.height - settings.radius, settings.radius])
 
 var colorScale = d3.scale.category10()
+var regions = ['Latin America & Caribbean', 'Sub-Saharan Africa', 'Europe & Central Asia', 'Middle East & North Africa', 'East Asia & Pacific', 'North America']
 
 var xAxisFunction = d3.svg.axis()
 xAxisFunction.scale(xScale)
