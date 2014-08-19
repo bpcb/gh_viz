@@ -20,6 +20,7 @@ svg.append("path")
     .datum(topojson.feature(shape, shape.objects.states))
     .attr("class", "border border--state")
     .attr('fill', 'gray')
+    .attr('stroke', 'white')
     .attr("d", path);
     
 var get_pop = function(id) {
