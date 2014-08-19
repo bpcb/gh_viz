@@ -1,99 +1,87 @@
-// Width and height settings
-// Create a variable "mySvg" that is a selection of the svg with the id "my-svg"
 var mySvg = d3.select('body').append('svg').attr('id', 'my-svg')
-    .attr('width', 1000).attr('height', 800)
-
+    .attr('width', 1500).attr('height', 1000)
+    
 var settings = {
   width:10, 
-  height:300, 
-  interval:20
+  height:800, 
+  interval:20,
+  padding:100
 }
 
-// Write a function that will assign all styles/attributes to your 'rect' elements
- var assignRect = function(rect) {
-    rect.attr('height', function(d){return d.yr2006})
-        .attr('width', settings.width)
-        .attr('x', function(d,i){return settings.interval*i})
-        .attr('y',function(d){return 300-d.yr2006})
-        .attr('style', "fill:blue")
-}
+// Y Scale: 0-2000 cases.
+var yScale = d3.scale.linear()
+yScale.domain([0, 2000])
+yScale.range([settings.height, 0])
 
-/*Write a function that will assign all styles/attributes to your y-label text elements
-These are the numbers that appear at the top of each bar
- be sure to assign the appropriate classes
-*/
-var assignYLabel = function(YLabel) {
-  YLabel.attr('x',function(d,i){return settings.interval*i+7.5})
-      .attr('y', function(d){return 800-d.yr2006})
-      .attr('class', 'y-label')
-      .attr('fill', 'white')
-      .text(function(d){return d.yr2006})
-}
+var yAxisFunction = d3.svg.axis()
+    .scale(yScale)
+    .orient('left')
+    .ticks(5)
+    
+var yAxis = d3.select('#my-svg').append('g')
+yAxis.attr('class', 'axis').attr('transform', 'translate(' + settings.padding + ',' + settings.padding + ')')
+yAxis.call(yAxisFunction)
 
-/*Write a function that will assign all styles/attributes to your x-label text elements: 
-These are the horizontal labels below the bars
- be sure to assign the appropriate classes
-*/  
+var drawAxisLabels = function() {
+    yAxisLabel = d3.select('#my-svg')
+        .append('text')
+        .attr('transform', 'translate(' + (settings.padding / 3) + ',' + (settings.height * 2/3) + ') rotate(270)')
+        .text('Number of mumps cases observed')
+}        
+
+drawAxisLabels()
+
+// X labels 
+
+var translate = function(d,i) {
+    return 'translate(' + (settings.padding + 10 + settings.interval*i + 8) + ',' + (820 + settings.padding) + ') rotate(-90)'
+}   
+
 var assignXLabel = function(XLabel) {
   XLabel.text(function(d){return d.state})
-      .attr('x',function(d,i){return (settings.interval*i + 2.5)})
-      .attr('y', 320)
       .attr('class', 'x-label')
       .attr('fill', 'black')
-      .attr('transform', 'translate(settings.width, settings.height)')
-      .attr('transform', 'rotate(90)')
+      .attr('font-size', '55%')
+      .attr('transform', translate)
       .style('text-anchor', 'end')
 }
 
-// Define a variable "rects" as the selection of all 'rect' elements within your "mySvg" variable with your data bound to it
-var rects = mySvg.selectAll('rect')
+ var assignRect = function(rect) {
+    rect.attr('height', function(d){return (800 - yScale(d.count))})
+        .attr('width', settings.width)
+        .attr('x', function(d,i){return (10 + settings.interval*i)})
+        .attr('y',function(d){return(yScale(d.count))})
+        .attr('style', "fill:blue")
+}
 
-// Enter your "rects" variable elements and append a rectangle element for each data element
-// Use D3's ".call" functionality to pass each element to the rectangle function you wrote above
-rects.data(data)
-    .enter()
-    .append('rect')
-    .call(assignRect)
+data_formatted = {}
+data_formatted[2006] = data.map(function(d) { return {state: d.state, count: d.yr2006} })
+data_formatted[2007] = data.map(function(d) { return {state: d.state, count: d.yr2007} })
+data_formatted[2008] = data.map(function(d) { return {state: d.state, count: d.yr2008} })
+data_formatted[2009] = data.map(function(d) { return {state: d.state, count: d.yr2009} })
+data_formatted[2010] = data.map(function(d) { return {state: d.state, count: d.yr2010} })
+data_formatted[2011] = data.map(function(d) { return {state: d.state, count: d.yr2011} })
+data_formatted[2012] = data.map(function(d) { return {state: d.state, count: d.yr2012} })
+data_formatted[2013] = data.map(function(d) { return {state: d.state, count: d.yr2013} })
+    
+var plotG = d3.select('#my-svg').append('g').attr('outline', 'outline-color: black').attr('transform', 'translate(' + settings.padding + ',' + settings.padding + ')')
+plotG.selectAll('rect').data(data_formatted[2006]).enter().append('rect').call(assignRect)
 
-  
-// Define a variable "labels" as the selection of all elements of class "y-label" within your "mySvg" variable with your data bound to it
-var labels = mySvg.selectAll('.y-label')
-
-  // Enter your "labels" variable elements and append a text element for each data element
-labels.data(data)
-    .enter()
-    .append('text')
-    .call(assignYLabel)
-
-
- // Define a variable "xLabels" as the selection of all elements with the class "x-labels"
 var xlabels = mySvg.selectAll('.x-label')
-
-labels.data(data)
+xlabels.data(data_formatted[2006])
     .enter()
     .append('text')
     .call(assignXLabel)
-
-  /* Write a function "update" that does the following:
-    - Selects all 'rect' elements and binds data2 as the data
-    - Transitions the 'rect' elements to their new position using .call
-    - Selects all 'text' elements and binds data2 as the data
-    - Transitions the 'rect' elements to their new position using .call
-  */
+    
 var update = function(){
-  var rects = mySvg.selectAll('rect')
-  
-  rects.data(data)
-    .transition()
-    .duration(500)
-    .call(assignRect)
-  
-  var YLabels = mySvg.selectAll('.y-label')
-  
-  YLabels.data()
-    .transition()
-    .duration(500)
-    .call(assignYLabel)
+  for (i = 2007; i < 2014; i++) {
+      var rects = mySvg.selectAll('rect')
+      
+      rects.data(data_formatted[i])
+        .transition()
+        .duration(1000)
+        .call(assignRect)
+  }
 }
 
   // Run your update function
