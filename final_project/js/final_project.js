@@ -79,27 +79,36 @@ svg.append("g")
   .text("Number of measles cases observed");
   
 svg.append('svg:image')
-  .attr('x', x(1963) + 2)
-  .attr('y', y(maxVal(filterData(nestedData))))
-  .attr('width', 60)
-  .attr('height', 72)
+  .attr('x', x(1963) - 21.75)
+  .attr('y', y(0) - 152)
+  .attr('width', 43.5)
+  .attr('height', 150)
   .attr('xlink:href', 'data/syringe.png')
 
 svg.append('text')
   .attr('x', x(1963) + 2)
-  .attr('y', y(maxVal(filterData(nestedData))))
+  .attr('y', y(0) - 12)
   .attr('dy', '.35em')
   .text('1963: introduction of measles vaccine')
 
-svg.selectAll('path')
+lines = svg.selectAll('path')
     .data(filterData(nestedData), function(d) { return d.key })
     .enter()
     .append('path')
     .attr('class', 'line')
     .attr('d', function(d) { return line(d.values) })
-    .attr('stroke-dasharray', 
     
+$(".line").each(function(i,d) {
+    var totalLength = d.getTotalLength()
     
+      d3.select(this).attr("stroke-dasharray", totalLength + " " + totalLength)
+      .attr("stroke-dashoffset", totalLength)
+      .transition()
+      .duration(1000)
+      .ease("linear")
+      .attr("stroke-dashoffset", 0)
+})
+
 // states = ['ALABAMA', 'MONTANA']
     
 // // svg.selectAll('path')
@@ -110,3 +119,4 @@ svg.selectAll('path')
 // // svg.selectAll('path').exit().remove()
 
 // // lines.exit().remove()
+
