@@ -73,16 +73,17 @@ xlabels.data(data_formatted[2006])
     .append('text')
     .call(assignXLabel)
     
-var update = function(){
-  for (i = 2007; i < 2014; i++) {
-      var rects = mySvg.selectAll('rect')
-      
+var update = function(i){
       rects.data(data_formatted[i])
         .transition()
         .duration(1000)
         .call(assignRect)
-  }
 }
 
+var rects = mySvg.selectAll('rect')
+
   // Run your update function
-update()
+
+for (i = 2007; i < 2014; i++) {
+    setInterval(update(i), 1000)
+}
