@@ -30,7 +30,7 @@ var maxVal = function(d) {
 // Axes
 var x = d3.scale.linear()
     .range([0, width]);
-x.domain([1953,1973]);
+x.domain([1948,1978]);
 
 var y = d3.scale.linear()
     .range([height, 0]);
@@ -67,7 +67,7 @@ svg.append('line')
   .attr('y1', y(0))
   .attr('y2', y(maxVal(filterData(nestedData)))) 
   .attr('stroke', 'black')
-
+  
 svg.append("g")
   .attr("class", "y axis")
   .call(yAxis)
@@ -97,26 +97,43 @@ lines = svg.selectAll('path')
     .append('path')
     .attr('class', 'line')
     .attr('d', function(d) { return line(d.values) })
+
+var left_to_right = function() {    
+    $(".line").each(function(i,d) {
+        var totalLength = d.getTotalLength()
+        
+          d3.select(this).attr("stroke-dasharray", totalLength + " " + totalLength)
+          .attr("stroke-dashoffset", totalLength)
+          .transition()
+          .delay(1000)
+          .duration(1000)
+          .ease("linear")
+          .attr("stroke-dashoffset", 0)
+    })
+}
+
+states = ['ALABAMA', 'MONTANA']
+
+var update = function() {
+    y.domain([0, maxVal(filterData(nestedData))]);
     
-$(".line").each(function(i,d) {
-    var totalLength = d.getTotalLength()
+    svg.select('.y.axis')
+        .transition()
+        .duration(1000)
+        .ease('linear')
+        .call(yAxis)
+        
+    lines = svg.selectAll('path')
+        .data(filterData(nestedData), function(d) { return d.key })
+        
+    lines.enter()
+        .append('path')
+        .attr('class', 'line')
+        .attr('d', function(d) { return line(d.values) })
+
+    lines.exit().remove()
     
-      d3.select(this).attr("stroke-dasharray", totalLength + " " + totalLength)
-      .attr("stroke-dashoffset", totalLength)
-      .transition()
-      .duration(1000)
-      .ease("linear")
-      .attr("stroke-dashoffset", 0)
-})
+    left_to_right()
+}
 
-// states = ['ALABAMA', 'MONTANA']
-    
-// // svg.selectAll('path')
-    // // .data(filterData(nestedData), function(d) { return d.key })
-    // // .attr('class', 'line')
-    // // .attr('d', function(d) { return line(d.values) })
-
-// // svg.selectAll('path').exit().remove()
-
-// // lines.exit().remove()
-
+update()

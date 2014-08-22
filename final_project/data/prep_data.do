@@ -22,7 +22,7 @@ preserve
 
 collapse (sum) cases, by(year abbrev loc)
 
-keep if year >= 1948 & year <= 1978
+keep if year >= 1946 & year <= 1980
 
 egen group = group(abbrev)
 tsset group year
@@ -34,7 +34,8 @@ drop group
 order loc abbrev year cases cases_avg
 sort loc year
 
-drop if year < 1953 | year > 1978
+drop if year < 1948 | year > 1978
+
 outsheet using "./data_formatted.csv", comma names replace
 
 restore
@@ -43,7 +44,7 @@ preserve
 
 collapse (sum) cases, by(year)
 
-keep if year >= 1948 & year <= 1978
+keep if year >= 1946 & year <= 1980
 
 gen group = 1
 tsset group year
@@ -54,6 +55,8 @@ drop group
 
 order year cases cases_avg
 sort year
+
+drop if year < 1948 | year > 1978
 
 outsheet using "./national_data_formatted.csv", comma names replace
 
