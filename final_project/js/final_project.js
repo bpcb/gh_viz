@@ -108,7 +108,7 @@ svg.append("g")
   
 svg.append('svg:image')
   .attr('x', x(1963) - 21.75)
-  .attr('y', y(0) - 152)
+  .attr('y', y(0) - 150)
   .attr('width', 43.5)
   .attr('height', 150)
   .attr('xlink:href', 'data/syringe.png')
@@ -118,13 +118,6 @@ svg.append('text')
   .attr('y', y(maxVal(filterData(nestedData))) + 4)
   .attr('dy', '.35em')
   .text('1963: Measles vaccine introduced in the United States')
-
-// lines = svg.selectAll('path')
-    // .data(filterData(nestedData), function(d) { return d.key })
-    // .enter()
-    // .append('path')
-    // .attr('class', 'line')
-    // .attr('d', function(d) { return line(d.values) })
 
 var left_to_right = function() {    
     
@@ -141,34 +134,6 @@ var left_to_right = function() {
           .attr('d', function(d) { return line(d.values) })
     })
 }
-
-// var update = function() {
-    // y.domain([0, maxVal(filterData(nestedData))]);
-        
-    // lines = svg.selectAll('path')
-        // .data(filterData(nestedData), function(d) { return d.key })
-        
-    // lines.enter()
-        // .append('path')
-        // .attr('class', 'line')
-        // .attr('stroke', function(d) { return colorScale(d.key) })
-        // .attr('d', function(d) { return line(d.values.filter(function(x) { return x.year <= 1963 } ))})  
-
-    // lines.transition()
-        // .delay(4000)
-        // .duration(1000)          
-        
-    // lines.enter()
-        // .append('path')
-        // .attr('class', 'line')
-        // .attr('stroke', function(d) { return colorScale(d.key) })
-        // .attr('d', function(d) { return line(d.values.filter(function(x) { return x.year >= 1963 } ))})           
-            
-    // lines.exit().remove()
-    
-    // left_to_right()
-    // hover()
-// }
 
 var update = function() {
     y.domain([0, maxVal(filterData(nestedData))]);
@@ -220,7 +185,12 @@ var update = function() {
     // hover()
 // }
 
-update()
+var default_national = function() {
+    states = ['NATIONAL']
+    update()
+}
+
+default_national()
 
 var check = $('input[type="checkbox"]').bind('change', function() {
     states.splice('NATIONAL', 1)
@@ -229,7 +199,7 @@ var check = $('input[type="checkbox"]').bind('change', function() {
         if (this.checked == true) {
             if (states.indexOf(this.id) <= -1) {
                 states.push(this.id)
-                this.style.color = '#006000'
+                this.style.backgroundColor = 'Red'
             } 
         }
         else if (this.checked == false & states.indexOf(this.id) > -1) {
@@ -238,3 +208,7 @@ var check = $('input[type="checkbox"]').bind('change', function() {
     });
     update()
 });
+
+$('#national').button().on('click', function() {
+    default_national()
+})
