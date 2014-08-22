@@ -9,9 +9,17 @@ var states = ['NATIONAL']
 var nest = d3.nest().key(function(d) { return d.loc })
 var nestedData = nest.entries(data)
 
+var colorScale = d3.scale.category10()
+colorScale.domain({'NATIONAL': 6})
+
 // Function to filter data down to only states that are in the list to display.
 var filterData = function(d) {
     var filtered = d.filter(function(x) { return states.indexOf(x.key) > -1 })
+    return filtered
+}
+
+var introData = function(d) {
+    var filtered = d.filter(function(x) { return x.year < 1964 })
     return filtered
 }
 
@@ -132,6 +140,34 @@ var left_to_right = function() {
     })
 }
 
+// var update = function() {
+    // y.domain([0, maxVal(filterData(nestedData))]);
+        
+    // lines = svg.selectAll('path')
+        // .data(filterData(nestedData), function(d) { return d.key })
+        
+    // lines.enter()
+        // .append('path')
+        // .attr('class', 'line')
+        // .attr('stroke', function(d) { return colorScale(d.key) })
+        // .attr('d', function(d) { return line(d.values.filter(function(x) { return x.year <= 1963 } ))})  
+
+    // lines.transition()
+        // .delay(4000)
+        // .duration(1000)          
+        
+    // lines.enter()
+        // .append('path')
+        // .attr('class', 'line')
+        // .attr('stroke', function(d) { return colorScale(d.key) })
+        // .attr('d', function(d) { return line(d.values.filter(function(x) { return x.year >= 1963 } ))})           
+            
+    // lines.exit().remove()
+    
+    // left_to_right()
+    // hover()
+// }
+
 var update = function() {
     y.domain([0, maxVal(filterData(nestedData))]);
     
@@ -151,6 +187,7 @@ var update = function() {
     lines.enter()
         .append('path')
         .attr('class', 'line')
+        .attr('stroke', function(d) { return colorScale(d.key) })
         .attr('d', function(d) { return line(d.values) })        
         
     lines.exit().remove()
@@ -161,13 +198,14 @@ var update = function() {
 
 update()
 
-$('input[type="checkbox"]').bind('change', function() {
+var check = $('input[type="checkbox"]').bind('change', function() {
     states.splice('NATIONAL', 1)
     
     $('input[type="checkbox"]').each(function(index, value) {
         if (this.checked == true) {
             if (states.indexOf(this.id) <= -1) {
                 states.push(this.id)
+                this.style.color = '#006000'
             } 
         }
         else if (this.checked == false & states.indexOf(this.id) > -1) {
