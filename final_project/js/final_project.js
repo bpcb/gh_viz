@@ -65,7 +65,7 @@ svg.append('line')
   .attr('x1', x(1963))
   .attr('x2', x(1963))
   .attr('y1', y(0))
-  .attr('y2', y(maxVal(filterData(nestedData))) 
+  .attr('y2', y(maxVal(filterData(nestedData)))) 
   .attr('stroke', 'black')
 
 svg.append("g")
@@ -80,14 +80,14 @@ svg.append("g")
   
 svg.append('svg:image')
   .attr('x', x(1963) + 2)
-  .attr('y', y(maxVal(filterData(nestedData)))
+  .attr('y', y(maxVal(filterData(nestedData))))
   .attr('width', 60)
   .attr('height', 72)
   .attr('xlink:href', 'data/syringe.png')
 
 svg.append('text')
   .attr('x', x(1963) + 2)
-  .attr('y', y(maxVal(filterData(nestedData)))
+  .attr('y', y(maxVal(filterData(nestedData))))
   .attr('dy', '.35em')
   .text('1963: introduction of measles vaccine')
 
@@ -97,28 +97,16 @@ svg.selectAll('path')
     .append('path')
     .attr('class', 'line')
     .attr('d', function(d) { return line(d.values) })
+    .attr('stroke-dasharray', 
     
-states = ['ALABAMA', 'MONTANA']
     
-// svg.selectAll('path')
-    // .data(filterData(nestedData), function(d) { return d.key })
-    // .attr('class', 'line')
-    // .attr('d', function(d) { return line(d.values) })
-
-// svg.selectAll('path').exit().remove()
-
-// lines.exit().remove()
-
-  // var YLabels = mySvg.selectAll('.y-label')
-  
-  // YLabels.data(data2)
-    // .transition()
-    // .duration(500)
-    // .call(yAxis)
+// states = ['ALABAMA', 'MONTANA']
     
+// // svg.selectAll('path')
+    // // .data(filterData(nestedData), function(d) { return d.key })
+    // // .attr('class', 'line')
+    // // .attr('d', function(d) { return line(d.values) })
 
-    
-  // $('#state').selectmenu({
-    // change:function() {
-        // settings.yVar=$(#);
-        
+// // svg.selectAll('path').exit().remove()
+
+// // lines.exit().remove()
