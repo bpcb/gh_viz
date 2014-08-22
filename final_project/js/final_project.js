@@ -127,6 +127,7 @@ svg.append('text')
     // .attr('d', function(d) { return line(d.values) })
 
 var left_to_right = function() {    
+    
     $(".line").each(function(i,d) {
         var totalLength = d.getTotalLength()
         
@@ -137,6 +138,7 @@ var left_to_right = function() {
           .duration(1000)
           .ease("linear")
           .attr("stroke-dashoffset", 0)
+          .attr('d', function(d) { return line(d.values) })
     })
 }
 
@@ -180,21 +182,43 @@ var update = function() {
     lines = svg.selectAll('path')
         .data(filterData(nestedData), function(d) { return d.key })
     
-    lines.transition()
-        .duration(1000)
-        .ease('linear') 
-        
     lines.enter()
         .append('path')
         .attr('class', 'line')
         .attr('stroke', function(d) { return colorScale(d.key) })
-        .attr('d', function(d) { return line(d.values) })        
+        .attr('d', function(d) { return line(d.values) })      
         
     lines.exit().remove()
     
-    left_to_right()
+    svg.selectAll('path').
+        call(left_to_right)
+        
     hover()
 }
+
+// var update = function() {
+    // y.domain([0, maxVal(filterData(nestedData))]);
+    
+// // Bind data
+    // lines = svg.selectAll('path')
+        // .data(filterData(nestedData), function(d) { return d.key })
+    
+// // Create an entering element of just your pieces that are entered
+	// var entering = lines.enter().append('path')
+			// .attr('class', 'line')
+			// .attr('line-id', function(d) {return self.id + '-' + d})
+			// .style('fill', 'none')
+            // .attr('d', function(d) { return line(d.values) })      
+
+// // // Transition in the elements (left to right, and Use .each(‘end’) to assign each element a class after the transition finishes.  This way when you select already entered elements (below), these ones won’t be selected
+	// // entering.transition().duration(2000).call(left_to_right).each('end', function() {d3.select(this).attr('class', 'line entered')})
+
+// // // Select all entered line elements and transition them
+	// // svg.selectAll('.line.entered').transition().duration(1500)
+	// // .attr('d', function(d) {return self.line(self.__data__[d])})
+        
+    // hover()
+// }
 
 update()
 
