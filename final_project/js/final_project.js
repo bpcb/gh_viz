@@ -1,4 +1,4 @@
-var margin = {top: 20, right: 20, bottom: 30, left: 50},
+var margin = {top: 20, right: 20, bottom: 30, left: 60},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
     
@@ -27,6 +27,25 @@ var maxVal = function(d) {
     return max
 }
 
+var hover = function() {
+    $('#main path').poshytip({
+        alignTo: 'cursor', // Align to cursor
+        followCursor: true, // follow cursor when it moves
+        showTimeout: 0, // No fade in
+        hideTimeout: 0,  // No fade out
+        alignX: 'center', // X alignment
+        alignY: 'inner-bottom', // Y alignment
+        className: 'tip-twitter', // Class for styling
+        offsetY: 10, // Offset vertically
+        slide: false, // No slide animation
+        content: function(d){
+            var obj = this.__data__ // Data associated with element
+            var name = obj.key
+            return name
+        }
+    })
+}
+
 // Axes
 var x = d3.scale.linear()
     .range([0, width]);
@@ -50,7 +69,7 @@ var line = d3.svg.line()
     .x(function(d) { return x(d.year); })
     .y(function(d) { return y(d.cases_avg); })
     
-var svg = d3.select("body").append("svg")
+var svg = d3.select(".main").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
@@ -74,8 +93,9 @@ svg.append("g")
 .append("text")
   .attr("transform", "rotate(-90)")
   .attr("y", 6)
+  .attr('x', -500 + margin.top + margin.bottom)
   .attr("dy", ".71em")
-  .style("text-anchor", "end")
+  .style("text-anchor", "front")
   .text("Number of measles cases observed");
   
 svg.append('svg:image')
@@ -86,17 +106,17 @@ svg.append('svg:image')
   .attr('xlink:href', 'data/syringe.png')
 
 svg.append('text')
-  .attr('x', x(1963) + 2)
-  .attr('y', y(0) - 12)
+  .attr('x', x(1963) + 4)
+  .attr('y', y(maxVal(filterData(nestedData))) + 4)
   .attr('dy', '.35em')
-  .text('1963: introduction of measles vaccine')
+  .text('1963: Measles vaccine introduced in the United States')
 
-lines = svg.selectAll('path')
-    .data(filterData(nestedData), function(d) { return d.key })
-    .enter()
-    .append('path')
-    .attr('class', 'line')
-    .attr('d', function(d) { return line(d.values) })
+// lines = svg.selectAll('path')
+    // .data(filterData(nestedData), function(d) { return d.key })
+    // .enter()
+    // .append('path')
+    // .attr('class', 'line')
+    // .attr('d', function(d) { return line(d.values) })
 
 var left_to_right = function() {    
     $(".line").each(function(i,d) {
@@ -112,8 +132,6 @@ var left_to_right = function() {
     })
 }
 
-states = ['ALABAMA', 'MONTANA']
-
 var update = function() {
     y.domain([0, maxVal(filterData(nestedData))]);
     
@@ -125,15 +143,36 @@ var update = function() {
         
     lines = svg.selectAll('path')
         .data(filterData(nestedData), function(d) { return d.key })
+    
+    lines.transition()
+        .duration(1000)
+        .ease('linear') 
         
     lines.enter()
         .append('path')
         .attr('class', 'line')
-        .attr('d', function(d) { return line(d.values) })
-
+        .attr('d', function(d) { return line(d.values) })        
+        
     lines.exit().remove()
     
     left_to_right()
+    hover()
 }
 
 update()
+
+$('input[type="checkbox"]').bind('change', function() {
+    states.splice('NATIONAL', 1)
+    
+    $('input[type="checkbox"]').each(function(index, value) {
+        if (this.checked == true) {
+            if (states.indexOf(this.id) <= -1) {
+                states.push(this.id)
+            } 
+        }
+        else if (this.checked == false & states.indexOf(this.id) > -1) {
+                states.splice(states.indexOf(this.id), 1)
+        }
+    });
+    update()
+});

@@ -1,7 +1,19 @@
+.main { float: left; }
+.buttons { float: right; }
 
+input {
+    width: 30px;
+    height: 13px;
+    padding: 0;
+    margin:0;
+    vertical-align: bottom;
+    position: relative;
+    top: -1px;
+    *overflow: hidden;
+}
 
 body {
-  font: 10px sans-serif;
+  font: 10px monospace;
 }
 
 .axis path,

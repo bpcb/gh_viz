@@ -7,40 +7,81 @@
 <script src="lib/external/jquery.js"></script>
 <script src="lib/jquery-ui.js"></script>
 <link href="jquery-ui.css" rel="stylesheet">
+<script src="lib/poshytip-1.2/src/jquery.poshytip.js"></script>
+<link href="lib/poshytip-1.2/src/tip-twitter/tip-twitter.css" rel="stylesheet">
+
+<body>
+<form>
+<div class='main' id='main'>
+<h2>Measles Infections in the United States, 1948-1978: Before and After the Vaccine</h2>
+</div>
+<div class='buttons'>
+
+<div class='buttons' id='east'>
+<h4>New England</h4>
+<input type="checkbox" class="checkbox" id="CONNECTICUT">Connecticut<br>
+<input type="checkbox" class="checkbox" id="MAINE">Maine<br>
+<input type="checkbox" class="checkbox" id="MASSACHUSETTS">Massachusetts<br>
+<input type="checkbox" class="checkbox" id="NEW HAMPSHIRE">New Hampshire<br>
+<input type="checkbox" class="checkbox" id="RHODE ISLAND">Rhode Island<br>
+<input type="checkbox" class="checkbox" id="VERMONT">Vermont<br>
+<h4>Mid-Atlantic</h4>
+<input type="checkbox" class="checkbox" id="DELAWARE">Delaware<br>
+<input type="checkbox" class="checkbox" id="DISTRICT OF COLUMBIA">District of Columbia<br>
+<input type="checkbox" class="checkbox" id="MARYLAND">Maryland<br>
+<input type="checkbox" class="checkbox" id="NEW JERSEY">New Jersey<br>
+<input type="checkbox" class="checkbox" id="NEW YORK">New York<br>
+<input type="checkbox" class="checkbox" id="PENNSYLVANIA">Pennsylvania<br>
+<input type="checkbox" class="checkbox" id="WEST VIRGINIA">West Virginia<br>
+<input type="hidden" name="checkbox"><br>
+<h4>South</h4>
+<input type="checkbox" class="checkbox" id="ALABAMA">Alabama<br>
+<input type="checkbox" class="checkbox" id="ARKANSAS">Arkansas<br>
+<input type="checkbox" class="checkbox" id="FLORIDA">Florida<br>
+<input type="checkbox" class="checkbox" id="GEORGIA">Georgia<br>
+<input type="checkbox" class="checkbox" id="KENTUCKY">Kentucky<br>
+<input type="checkbox" class="checkbox" id="LOUISIANA">Louisiana<br>
+<input type="checkbox" class="checkbox" id="MISSISSIPPI">Mississippi<br>
+<input type="checkbox" class="checkbox" id="NORTH CAROLINA">North Carolina<br>
+<input type="checkbox" class="checkbox" id="OKLAHOMA">Oklahoma<br>
+<input type="checkbox" class="checkbox" id="SOUTH CAROLINA">South Carolina<br>
+<input type="checkbox" class="checkbox" id="TENNESSEE">Tennessee<br>
+<input type="checkbox" class="checkbox" id="TEXAS">Texas<br>
+<input type="checkbox" class="checkbox" id="VIRGINIA">Virginia<br>
+</div>
+<div class='buttons' id='west'>
+<h4>Pacific</h4>
+<input type="checkbox" class="checkbox" id="ALASKA">Alaska<br>
+<input type="checkbox" class="checkbox" id="CALIFORNIA">California<br>
+<input type="checkbox" class="checkbox" id="HAWAII">Hawaii<br>
+<input type="checkbox" class="checkbox" id="OREGON">Oregon<br>
+<input type="checkbox" class="checkbox" id="WASHINGTON">Washington<br>
+<input type="hidden" name="checkbox"><br>
+<h4>Mountain</h4>
+<input type="checkbox" class="checkbox" id="ARIZONA">Arizona<br>
+<input type="checkbox" class="checkbox" id="COLORADO">Colorado<br>
+<input type="checkbox" class="checkbox" id="IDAHO">Idaho<br>
+<input type="checkbox" class="checkbox" id="MONTANA">Montana<br>
+<input type="checkbox" class="checkbox" id="NEVADA">Nevada<br>
+<input type="checkbox" class="checkbox" id="NEW MEXICO">New Mexico<br>
+<input type="checkbox" class="checkbox" id="UTAH">Utah<br>
+<input type="checkbox" class="checkbox" id="WYOMING">Wyoming<br>
+<h4>Midwest</h4>
+<input type="checkbox" class="checkbox" id="ILLINOIS">Illinois<br>
+<input type="checkbox" class="checkbox" id="INDIANA">Indiana<br>
+<input type="checkbox" class="checkbox" id="IOWA">Iowa<br>
+<input type="checkbox" class="checkbox" id="KANSAS">Kansas<br>
+<input type="checkbox" class="checkbox" id="MICHIGAN">Michigan<br>
+<input type="checkbox" class="checkbox" id="MINNESOTA">Minnesota<br>
+<input type="checkbox" class="checkbox" id="MISSOURI">Missouri<br>
+<input type="checkbox" class="checkbox" id="NEBRASKA">Nebraska<br>
+<input type="checkbox" class="checkbox" id="NORTH DAKOTA">North Dakota<br>
+<input type="checkbox" class="checkbox" id="OHIO">Ohio<br>
+<input type="checkbox" class="checkbox" id="SOUTH DAKOTA">South Dakota<br>
+<input type="checkbox" class="checkbox" id="WISCONSIN">Wisconsin<br>
+</div
+</div>
 <script type="text/javascript" src="js/data.js"></script>
 <script type="text/javascript" src="js/final_project.js"></script>
-
-<form action="">
-<input type="checkbox" name="state" value="ALABAMA">Alabama<br>
-<input type="checkbox" name="state" value="ALASKA">Alabama<br>
-<input type="checkbox" name="state" value="ARIZONA">Arizona<br>
-<input type="checkbox" name="state" value="ARKANSAS">Arkansas<br>
-<input type="checkbox" name="state" value="CALIFORNIA">California<br>
-<input type="checkbox" name="state" value="COLORADO">Colorado<br>
-<input type="checkbox" name="state" value="CONNECTICUT">Connecticut<br>
-<input type="checkbox" name="state" value="DELAWARE">Delaware<br>
-<input type="checkbox" name="state" value="DISTRICT OF COLUMBIA">District of Columbia<br>
-<input type="checkbox" name="state" value="FLORIDA">Florida<br>
-<input type="checkbox" name="state" value="GEORGIA">Georgia<br>
-<input type="checkbox" name="state" value="HAWAII">Hawaii<br>
-<input type="checkbox" name="state" value="IDAHO">Idaho<br>
-<input type="checkbox" name="state" value="ILLINOIS">Illinois<br>
-<input type="checkbox" name="state" value="INDIANA">Indiana<br>
-<input type="checkbox" name="state" value="IOWA">Iowa<br>
-<input type="checkbox" name="state" value="KANSAS">Kansas<br>
-<input type="checkbox" name="state" value="KENTUCKY">Kentucky<br>
-<input type="checkbox" name="state" value="LOUISIANA">Louisiana<br>
-<input type="checkbox" name="state" value="MAINE">Maine<br>
-<input type="checkbox" name="state" value="MARYLAND">Maryland<br>
-<input type="checkbox" name="state" value="MASSACHUSETTS">Massachusetts<br>
-<input type="checkbox" name="state" value="MICHIGAN">Michigan<br>
-<input type="checkbox" name="state" value="MINNESOTA">Minnesota<br>
-<input type="checkbox" name="state" value="MISSISSIPPI">Mississippi<br>
-<input type="checkbox" name="state" value="MISSOURI">Missouri<br>
-<input type="checkbox" name="state" value="MONTANA">Montana<br>
-<input type="checkbox" name="state" value="NEBRASKA"><br>
-<input type="checkbox" name="state" value=""><br>
-<input type="checkbox" name="state" value=""><br>
-
-
+</body>
 </html>

@@ -35,6 +35,7 @@ order loc abbrev year cases cases_avg
 sort loc year
 
 drop if year < 1948 | year > 1978
+drop if cases_avg == .
 
 outsheet using "./data_formatted.csv", comma names replace
 
@@ -53,10 +54,12 @@ gen cases_avg = round((L2.cases + L.cases + cases + F.cases + F2.cases) / 5)
 
 drop group
 
-order year cases cases_avg
+gen loc = "NATIONAL"
+order loc year cases cases_avg
 sort year
 
 drop if year < 1948 | year > 1978
+drop if cases_avg == .
 
 outsheet using "./national_data_formatted.csv", comma names replace
 
