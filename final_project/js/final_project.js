@@ -18,11 +18,6 @@ var filterData = function(d) {
     return filtered
 }
 
-var introData = function(d) {
-    var filtered = d.filter(function(x) { return x.year < 1964 })
-    return filtered
-}
-
 // Function that evaluates the maximum count observed in any displayed state
 var maxVal = function(d) {
     var max = 0
@@ -35,6 +30,7 @@ var maxVal = function(d) {
     return max
 }
 
+// Displays the name of the state when a user hovers over the line.
 var hover = function() {
     $('#main path').poshytip({
         alignTo: 'cursor', // Align to cursor
@@ -83,11 +79,13 @@ var svg = d3.select(".main").append("svg")
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+// Draw X axis, which is static and does not change regardless of the interactions introduced by the user.
 svg.append("g")
   .attr("class", "x axis")
   .attr("transform", "translate(0," + height + ")")
   .call(xAxis);
 
+// Draw vertical line where measles vaccine was introduced (1963).
 svg.append('line')
   .attr('x1', x(1963))
   .attr('x2', x(1963))
@@ -95,6 +93,7 @@ svg.append('line')
   .attr('y2', y(maxVal(filterData(nestedData)))) 
   .attr('stroke', 'black')
   
+// Draw Y axis with label on inside.
 svg.append("g")
   .attr("class", "y axis")
   .call(yAxis)
@@ -119,6 +118,7 @@ svg.append('text')
   .attr('dy', '.35em')
   .text('1963: Measles vaccine introduced in the United States')
 
+// Draws each path (using their shared class 'line') from left to right.
 var left_to_right = function() {    
     
     $(".line").each(function(i,d) {
@@ -136,6 +136,7 @@ var left_to_right = function() {
 }
 
 var update = function() {
+// First, update domain of Y axis to reflect the range of values observed in states that will be displayed.
     y.domain([0, maxVal(filterData(nestedData))]);
     
     svg.select('.y.axis')
@@ -147,51 +148,33 @@ var update = function() {
     lines = svg.selectAll('path')
         .data(filterData(nestedData), function(d) { return d.key })
     
+// Add new lines after updating data above.
     lines.enter()
         .append('path')
         .attr('class', 'line')
         .attr('stroke', function(d) { return colorScale(d.key) })
         .attr('d', function(d) { return line(d.values) })      
         
+// Remove lines that are no longer present.
     lines.exit().remove()
     
+// Draw new lines and transition old ones.
     svg.selectAll('path').
         call(left_to_right)
         
     hover()
 }
 
-// var update = function() {
-    // y.domain([0, maxVal(filterData(nestedData))]);
-    
-// // Bind data
-    // lines = svg.selectAll('path')
-        // .data(filterData(nestedData), function(d) { return d.key })
-    
-// // Create an entering element of just your pieces that are entered
-	// var entering = lines.enter().append('path')
-			// .attr('class', 'line')
-			// .attr('line-id', function(d) {return self.id + '-' + d})
-			// .style('fill', 'none')
-            // .attr('d', function(d) { return line(d.values) })      
-
-// // // Transition in the elements (left to right, and Use .each(‘end’) to assign each element a class after the transition finishes.  This way when you select already entered elements (below), these ones won’t be selected
-	// // entering.transition().duration(2000).call(left_to_right).each('end', function() {d3.select(this).attr('class', 'line entered')})
-
-// // // Select all entered line elements and transition them
-	// // svg.selectAll('.line.entered').transition().duration(1500)
-	// // .attr('d', function(d) {return self.line(self.__data__[d])})
-        
-    // hover()
-// }
-
 var default_national = function() {
     states = ['NATIONAL']
     update()
 }
 
+// When page loads, we want to show only the national trendl.
 default_national()
 
+// When any checkbox is checked, adds that state to the list 'states' which determines which lines are drawn on the page.
+// Conversely, removes any state that is currently in the list 'states' where their checkbox is unchecked.
 var check = $('input[type="checkbox"]').bind('change', function() {
     states.splice('NATIONAL', 1)
     
@@ -199,7 +182,6 @@ var check = $('input[type="checkbox"]').bind('change', function() {
         if (this.checked == true) {
             if (states.indexOf(this.id) <= -1) {
                 states.push(this.id)
-                this.style.backgroundColor = 'Red'
             } 
         }
         else if (this.checked == false & states.indexOf(this.id) > -1) {
@@ -209,6 +191,7 @@ var check = $('input[type="checkbox"]').bind('change', function() {
     update()
 });
 
+// If a user clicks on the "return to national button", resets to national trendline.
 $('#national').button().on('click', function() {
     default_national()
 })
